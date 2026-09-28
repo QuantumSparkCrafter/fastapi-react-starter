@@ -1,20 +1,28 @@
-// Cache the promise to avoid creating a new one on every render
-let healthPromise = null
+export interface HealthStatusData {
+  status: string
+  message?: string
+  [key: string]: any
+}
 
-export function useHealthStatus() {
+// Cache the promise to avoid creating a new one on every render
+let healthPromise: Promise<HealthStatusData> | null = null
+
+export function useHealthStatus(): Promise<HealthStatusData> {
   if (!healthPromise) {
     healthPromise = fetchHealthStatus()
   }
   return healthPromise
 }
 
-async function fetchHealthStatus() {
+async function fetchHealthStatus(): Promise<HealthStatusData> {
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/health`)
+    const baseUrl = import.meta.env.VITE_API_URL || ''
+    const response = await fetch(`${baseUrl}/api/health`)
     if (!response.ok) return { status: 'error' }
     const data = await response.json()
     return data
-  } catch (error) {
-    return { status: 'error', message: error.message }
+  } catch (error: any) {
+    return { status: 'error', message: error?.message || 'Failed to fetch health status' }
   }
 }
+

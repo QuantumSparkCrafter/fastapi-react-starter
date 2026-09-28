@@ -34,5 +34,8 @@
     "tailwindcss": "^4.1.8",
     "typescript": "^5.8.3",
     "vite": "^6.3.5"
+  },
+  "optionalDependencies": {
+    "@tailwindcss/oxide-win32-x64-msvc": "4.3.3"
   }
 }
