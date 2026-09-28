@@ -1,10 +1,15 @@
+import { ReactNode } from 'react'
 import { StatusDot } from '../../components/ui/StatusDot'
 
-export function ErrorBoundary({ children }) {
-  let error = undefined
+interface ErrorBoundaryProps {
+  children?: ReactNode
+}
+
+export function ErrorBoundary({ children }: ErrorBoundaryProps) {
+  let error: { message?: string } | null = null
   try {
-    return children
-  } catch (e) {
+    return <>{children}</>
+  } catch (e: any) {
     error = e
   }
 
@@ -15,3 +20,4 @@ export function ErrorBoundary({ children }) {
     </div>
   )
 }
+
